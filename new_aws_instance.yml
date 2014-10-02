@@ -1,0 +1,37 @@
+---
+
+# Launch instances, runs some tasks
+
+
+- name: Create ec2 instances
+  hosts: localhost
+  gather_facts: False
+
+  vars:
+    key_name: id_rsa_macbook
+    instance_type: t2.micro
+    security_group: aidan_custom_ips
+    image: ami-33db9803
+    region: us-west-2
+    count: 3
+
+  tasks:
+    - name: Launch instance
+      local_action: ec2 key_name={{ key_name }} group={{ security_group }} instance_type={{ instance_type }} image={{ image }} wait=true region={{ region }} count={{ count }} instance_tags='{"Name":"from_ansible"}'
+      register: ec2
+
+    - name: Add new instance to host group
+      local_action: add_host hostname={{ item.public_ip }} groupname=launched
+      with_items: ec2.instances
+
+    - name: Wait for SSH to come up
+      local_action: wait_for host={{ item.public_dns_name }} port=22 delay=60 timeout=320 state=started
+      with_items: ec2.instances
+
+- name: Configure instance(s)
+  user: ubuntu
+  hosts: launched
+  sudo: True
+  gather_facts: True
+  roles:
+    - webserver

@@ -1,0 +1,27 @@
+---
+
+# connect to node and gather facts.
+# these facts are added to inventory hostvars for the duration of the playbooks execution.
+
+- hosts: ec2hosts
+  gather_facts: True
+  user: ubuntu
+  sudo: True
+  tasks:
+
+    # fetch instance data from the metadata servers in ec2
+    - ec2_facts:
+
+    # show all known facts for this host
+    - debug: var=hostsvars[inventory_hostname]
+
+    # just show the instance-id
+    - debug: msg="{{ hostvars[inventory_hostname]['ansible_ec2_instance_id'] }}"
+
+
+
+
+
+
+
+
