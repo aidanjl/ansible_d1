@@ -13,7 +13,7 @@
     security_group: aidan_custom_ips
     image: ami-33db9803
     region: us-west-2
-    instance_tag: "'{"Name":"Webserver"}'"
+    instance_tag: '{"Name":"Webserver"}'
     count: 3
 
   tasks:
