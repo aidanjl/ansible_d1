@@ -13,11 +13,12 @@
     security_group: aidan_custom_ips
     image: ami-33db9803
     region: us-west-2
+    instance_tag: '{"Name":"Webserver"}'
     count: 3
 
   tasks:
     - name: Launch instance
-      local_action: ec2 key_name={{ key_name }} group={{ security_group }} instance_type={{ instance_type }} image={{ image }} wait=true region={{ region }} count={{ count }} instance_tags='{"Name":"from_ansible"}'
+      local_action: ec2 key_name={{ key_name }} group={{ security_group }} instance_type={{ instance_type }} image={{ image }} wait=true region={{ region }} count={{ count }} instance_tags={{ instance_tag }}
       register: ec2
 
     - name: Add new instance to host group
