@@ -1,0 +1,18 @@
+---
+- name: install nginx and tomcat stack
+  hosts: webservers
+  user: root
+
+  tasks:
+
+  - name: install nginx
+    apt: name=nginx state=present
+  - name: start nginx
+    service: name=nginx state=running
+
+  - name: install tomcat7
+    apt: name=tomcat7 state=present
+  - name: start tomcat7
+    service: name=tomcat7 state=running
+
+
