@@ -18,7 +18,7 @@
 
   tasks:
     - name: Launch instance
-      local_action: ec2 key_name={{ key_name }} group={{ security_group }} instance_type={{ instance_type }} image={{ image }} wait=true region={{ region }} count={{ count }} instance_tags={{ instance_tag }}
+      local_action: ec2 key_name={{ key_name }} group={{ security_group }} instance_type={{ instance_type }} image={{ image }} wait=true region={{ region }} count={{ count }} instance_tags='{{ instance_tag }}'
       register: ec2
 
     - name: Add new instance to host group
